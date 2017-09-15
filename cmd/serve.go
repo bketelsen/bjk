@@ -115,18 +115,21 @@ func encodeHandler(response http.ResponseWriter, request *http.Request, db Datab
 		http.Error(response, `{"error": "Unable to parse json"}`, http.StatusBadRequest)
 		return
 	}
-	fmt.Println(data.ShortCode, data.URL)
 	if !govalidator.IsURL(data.URL) {
 		http.Error(response, `{"error": "Not a valid URL"}`, http.StatusBadRequest)
 		return
 	}
 
+	if data.ShortCode == "" {
+		http.Error(response, `{"error": "Not a valid short code"}`, http.StatusBadRequest)
+		return
+	}
 	id, shortcode, err := db.Save(data.ShortCode, data.URL)
 	if err != nil {
 		log.Println(err)
 		if strings.Contains(err.Error(), "constraint") {
 
-			http.Error(response, `{"error": "unable to save: duplicate short code"}`, http.StatusBadRequest)
+			http.Error(response, `{"error": "duplicate short code"}`, http.StatusBadRequest)
 			return
 		}
 		http.Error(response, `{"error": "unable to save"}`, http.StatusInternalServerError)
