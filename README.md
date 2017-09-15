@@ -8,7 +8,7 @@ To use it, place the 'bjk' or 'bjk.exe' binary somewhere in your path.
 
 ```
 Usage:
-  bjk URL [flags]
+  bjk URL SHORTCODE [flags]
   bjk [command]
 
 Available Commands:
@@ -36,15 +36,15 @@ Edit this file, and replace the alias configuration value with your Microsoft al
 ## Creating a Shortened URL
 
 ```
-bjk -c twitter -e ignite https://docs.microsoft.com/azure/x
+bjk -c twitter -e ignite https://docs.microsoft.com/azure/x mycode
 ```
 
 This returns:
 
 ```
 Using config file: /home/bketelsen/.bjk.yaml
-Submitting to  http://bjk.ms
-bjk.ms/1
+Submitting to  http://bjk.fyi
+bjk.fyi/mycode
 ```
 
 It also copies the shortened URL into your clipboard.  Because I love you guys.
@@ -71,7 +71,7 @@ Then I can use the `bjk` command and only specify the event with the `-e` flag, 
 
 You may fill in all three values in the config file, or none.  Any missing values will cause the program to fail with an error:
 ```
-$ bjk -a brketels -e ignite https://microsoft.com
+$ bjk -a brketels -e ignite https://microsoft.com ms1
 
 > Using config file: /home/bketelsen/.bjk.yaml
 > Channel is required.  Set with -c or in config file.
