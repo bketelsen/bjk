@@ -11,7 +11,7 @@ StartLimitBurst=5
 ; User and group the process will run as.
 User=www-data
 Group=www-data
-
+WorkingDirectory=/opt/bjk
 
 ; Always set "-root" to something safe in case it gets forgotten in the Caddyfile.
 ExecStart=/opt/bjk/bjk serve
