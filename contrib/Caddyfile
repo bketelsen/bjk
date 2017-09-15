@@ -1,0 +1,6 @@
+http://bjk.fyi {
+        tls off
+        proxy / http://127.0.0.1:1338/
+}
+
+
