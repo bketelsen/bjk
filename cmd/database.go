@@ -14,6 +14,7 @@ import (
 type Database interface {
 	Get(shortcode string) (string, error)
 	Save(shortcode, url string) (int64, string, error)
+	List() ([]Response, error)
 }
 
 type sqlite struct {
@@ -45,6 +46,36 @@ func (s sqlite) Save(shortcode, url string) (int64, string, error) {
 	return id, shortcode, nil
 }
 
+func (s sqlite) List() ([]Response, error) {
+	var response []Response
+	db, err := sql.Open("sqlite3", s.Path)
+	stmt, err := db.Prepare("select shortcode, url from urls")
+	if err != nil {
+		return response, err
+	}
+	defer stmt.Close()
+	var url string
+	var shortcode string
+	rows, err := stmt.Query()
+	if err != nil {
+		return response, err
+	}
+
+	defer rows.Close()
+	for rows.Next() {
+		err := rows.Scan(&shortcode, &url)
+		if err != nil {
+			return response, err
+		}
+		r := Response{
+			ShortCode: shortcode,
+			URL:       url,
+		}
+		response = append(response, r)
+	}
+	err = rows.Err()
+	return response, err
+}
 func (s sqlite) Get(shortcode string) (string, error) {
 	db, err := sql.Open("sqlite3", s.Path)
 	stmt, err := db.Prepare("select url from urls where shortcode = ?")

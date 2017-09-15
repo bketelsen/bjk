@@ -82,6 +82,10 @@ func serve() {
 	}
 
 	r := mux.NewRouter()
+
+	r.HandleFunc("/admin/list", func(response http.ResponseWriter, request *http.Request) {
+		listHandler(response, request, db)
+	})
 	r.HandleFunc("/save",
 		func(response http.ResponseWriter, request *http.Request) {
 			encodeHandler(response, request, db, baseURL)
@@ -89,9 +93,22 @@ func serve() {
 	r.HandleFunc("/{shortcode}", func(response http.ResponseWriter, request *http.Request) {
 		decodeHandler(response, request, db)
 	})
+
 	r.PathPrefix("/").Handler(http.FileServer(http.Dir("public")))
 	log.Println("Starting server on port :1338")
 	log.Fatal(http.ListenAndServe(":1338", handlers.LoggingHandler(os.Stdout, r)))
+}
+
+func listHandler(response http.ResponseWriter, request *http.Request, db Database) {
+	urls, err := db.List()
+	if err != nil {
+		http.Error(response, `{"error": "DB Error"}`, http.StatusInternalServerError)
+		return
+	}
+
+	jsonData, _ := json.Marshal(urls)
+	response.Write(jsonData)
+
 }
 
 func decodeHandler(response http.ResponseWriter, request *http.Request, db Database) {
