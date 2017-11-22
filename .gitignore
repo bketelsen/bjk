@@ -22,3 +22,6 @@ bjk-mac
 # output from makefile
 target/
 db.sqlite
+/.GOPATH
+/bin
+.envrc
