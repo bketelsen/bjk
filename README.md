@@ -36,7 +36,7 @@ Edit this file, and replace the alias configuration value with your Microsoft al
 ## Creating a Shortened URL
 
 ```
-bjk -c twitter -e ignite https://docs.microsoft.com/azure/x mycode
+bjk -c twitter -e ignite https://docs.microsoft.com/azure/x?WT.mc_id=opensource-0000-brketels mycode
 ```
 
 This returns:
@@ -71,7 +71,7 @@ Then I can use the `bjk` command and only specify the event with the `-e` flag, 
 
 You may fill in all three values in the config file, or none.  Any missing values will cause the program to fail with an error:
 ```
-$ bjk -a brketels -e ignite https://microsoft.com ms1
+$ bjk -a brketels -e ignite https://microsoft.com/?WT.mc_id=opensource-0000-brketels ms1
 
 > Using config file: /home/bketelsen/.bjk.yaml
 > Channel is required.  Set with -c or in config file.
